@@ -1,0 +1,87 @@
+.name{
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.pizzaImg{
+    height: 200px;
+    transition: transform 0.5s ease;
+    margin: 30px;
+    cursor: pointer;
+
+    &:hover{
+        transform: scale(1.2);
+    }
+}
+
+.ingredients{
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    padding: 10px;
+}
+
+.sizes{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+
+    .size{
+        padding: 10px;
+        border-radius: 10px;
+        background-color: beige;
+        cursor: pointer;
+        margin: 0;
+
+        &.active{
+            background-color: yellow;
+        }
+
+        &:hover{
+            background-color: yellow;
+        }
+    }
+}
+
+.price{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .value{
+        max-width: 90px;
+        min-width: 81px
+    }
+
+    .buyBtn{
+        background-color: red;
+        padding: 0 10px;
+        border-radius: 10px;
+        transition: transform 0.5s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        font-size: 18px;
+        color: white;
+        cursor: pointer;
+        height: 30px;
+
+        &:hover{
+            transform: scale(1.1);
+        }
+        
+        .basketImg{
+            height: 15px;
+        }
+    }
+}

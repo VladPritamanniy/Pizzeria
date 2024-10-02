@@ -1,0 +1,41 @@
+.sidebar{
+    flex: 1;
+    background-color: yellow;
+    nav{
+        margin-right: 20px;
+        ul{
+            li{
+                list-style: none;
+                border-radius: 5px;
+                margin-top: 10px;
+
+                a{
+                    color: black;
+                    display: block;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    font-weight: 700;
+                    font-size: 30px;
+                }
+            }
+
+            li:hover{
+                background-color: rgb(240, 236, 236);
+            }
+        }
+    }
+}
+
+.content{
+    flex: 5;
+    width: 100%;
+}
+.active{
+    background-color: rgb(240, 236, 236);
+}
+
+.pizzaImg{
+    height: 100px;
+    left: 80px;
+    position: relative;
+}

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pizzeria.Application.DTO;
 using Pizzeria.Application.Interfaces;
+using Pizzeria.Core.Exceptions;
 
 namespace Pizzeria.API.Controllers
 {
@@ -16,10 +18,25 @@ namespace Pizzeria.API.Controllers
             _menuService = menuService;
         }
 
-        [HttpGet("get-all-pizza")]
-        public IActionResult GetAllPizza()
+        [HttpGet]
+        public async Task<IActionResult> GetAllPizzas()
         {
-            return Ok();
+            return Ok(await _menuService.GetAllPizzas());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePizza([FromForm] PizzaCreateDto dto)
+        {
+            try
+            {
+                await _menuService.CreatePizza(dto);
+                return Ok();
+            }
+            catch (PizzaNotCreatedException e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(e.Message);
+            }
         }
     }
 }

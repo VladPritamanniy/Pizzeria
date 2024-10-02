@@ -7,6 +7,7 @@ namespace Pizzeria.Core.Entities
         public int PizzaId { get; set; }
         public int SizeId { get; set; }
         public int PriceId { get; set; }
+
         public Size Size { get; set; }
         public Price Price { get; set; }
     }

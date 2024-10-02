@@ -1,11 +1,16 @@
 using Microsoft.EntityFrameworkCore;
+using Pizzeria.API.Infrastructure;
+using Pizzeria.Application.Interfaces;
+using Pizzeria.Application.Mapper;
+using Pizzeria.Application.Services;
+using Pizzeria.Core.Repositories;
 using Pizzeria.Infrastructure.Data;
 
 namespace Pizzeria.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +22,24 @@ namespace Pizzeria.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("all", builder => builder.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+            });
+
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
+
+            builder.Services.AddScoped<IMenuService, MenuService>();
+            builder.Services.AddAutoMapper(typeof(DtoProfile));
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            builder.Services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
+
             var app = builder.Build();
+            await app.Services.MigrateDatabaseAsync();
+
 
             if (app.Environment.IsDevelopment())
             {
@@ -26,13 +48,13 @@ namespace Pizzeria.API
             }
 
             app.UseHttpsRedirection();
+            app.UseExceptionHandler();
 
             app.UseAuthorization();
-
-            
+            app.UseCors("all");
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }

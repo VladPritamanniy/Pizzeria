@@ -4,6 +4,6 @@ namespace Pizzeria.Core.Entities
 {
     public class Price : BaseEntity
     {
-        public int Value { get; set; }
+        public decimal Value { get; set; }
     }
 }
