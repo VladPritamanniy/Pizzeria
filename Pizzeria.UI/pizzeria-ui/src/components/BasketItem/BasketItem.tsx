@@ -5,7 +5,6 @@ interface Props {
 }
 
 export default function BasketItem({ data }: Props) {
-    console.log(data);
     return (
         <>
             <div>{data.name}</div>

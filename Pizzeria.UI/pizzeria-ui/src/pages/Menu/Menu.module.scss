@@ -9,14 +9,17 @@
 }
 
 .ulPizzas {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+    padding-left: 2%;
 
     .pizza {
         border: 1px solid rgb(148, 148, 148);
         list-style: none;
         border-radius: 10px;
-        width: min-content;
+        width: 95%;
+        
     }
 }
 

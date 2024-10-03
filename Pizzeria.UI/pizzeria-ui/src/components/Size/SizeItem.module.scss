@@ -1,0 +1,18 @@
+.sizeItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sizeLabel {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.sizeInput {
+    width: 70px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}

@@ -12,11 +12,13 @@ namespace Pizzeria.Application.Services
     {
         private readonly IRepository<Pizza> _repository;
         private readonly IMapper _mapper;
+        private readonly IPizzaFactory _factory;
 
-        public MenuService(IRepository<Pizza> repository, IMapper mapper)
+        public MenuService(IRepository<Pizza> repository, IMapper mapper, IPizzaFactory factory)
         {
             _repository = repository;
             _mapper = mapper;
+            _factory = factory;
         }
 
         public async Task<MenuDto> GetAllPizzas()
@@ -27,13 +29,13 @@ namespace Pizzeria.Application.Services
             {
                 Pizzas = _mapper.Map<List<PizzaDto>>(result),
             };
-
             return menu;
         }
 
         public async Task CreatePizza(PizzaCreateDto dto)
         {
-            var result = await _repository.AddAsync(_mapper.Map<Pizza>(dto));
+            var pizza = await _factory.Create(dto);
+            var result = await _repository.AddAsync(pizza);
             if (result.Id <= 0)
             {
                 throw new PizzaNotCreatedException();

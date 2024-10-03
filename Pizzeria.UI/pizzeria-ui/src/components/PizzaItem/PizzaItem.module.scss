@@ -10,6 +10,8 @@
     transition: transform 0.5s ease;
     margin: 30px;
     cursor: pointer;
+    position: relative;
+    left: 20px;
 
     &:hover{
         transform: scale(1.2);
@@ -24,10 +26,13 @@
     margin: 0;
     overflow: hidden;
     display: -webkit-box;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    height: 45px;
+    margin: 0px 10px;
 }
 
 .sizes{
@@ -56,7 +61,8 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-
+    height: 50px;
+    
     .value{
         max-width: 90px;
         min-width: 81px

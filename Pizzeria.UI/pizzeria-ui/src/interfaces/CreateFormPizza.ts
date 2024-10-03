@@ -1,7 +1,8 @@
-import { PizzaPrice } from "./PizzaPrice";
+import { SizeWithPrice } from "./SizeWithPrice";
 
 export interface CreateFormPizza{
     name: string,
     pizzaImg: File,
-    pizzaPrices: PizzaPrice[]
+    sizesWithPrice: SizeWithPrice[]
+    ingredientIds: number[]
 }

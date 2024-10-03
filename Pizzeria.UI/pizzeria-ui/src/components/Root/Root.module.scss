@@ -29,6 +29,7 @@
 .content{
     flex: 5;
     width: 100%;
+    overflow: auto;
 }
 .active{
     background-color: rgb(240, 236, 236);

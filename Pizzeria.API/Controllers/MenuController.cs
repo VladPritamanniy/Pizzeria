@@ -5,8 +5,8 @@ using Pizzeria.Core.Exceptions;
 
 namespace Pizzeria.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class MenuController : ControllerBase
     {
         private readonly ILogger<MenuController> _logger;
