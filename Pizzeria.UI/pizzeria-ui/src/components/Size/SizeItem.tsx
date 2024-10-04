@@ -13,8 +13,8 @@ export default function SizeItem({size, index, onChangeHandler}:Props){
             <div key={size.id} className={styles.sizeItem}>
                 <span className={styles.sizeLabel}>{size.name}:</span>
                 <input 
-                    type="number" 
-                    value={size.price} 
+                    type="number"
+                    value={size.price || ''} 
                     onChange={e => onChangeHandler(index, { ...size, price: parseFloat(e.target.value) })}  
                     className={styles.sizeInput}
                     min="0"

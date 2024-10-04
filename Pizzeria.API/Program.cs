@@ -45,6 +45,7 @@ namespace Pizzeria.API
             builder.Services.AddScoped<ISizeService, SizeService>();
             builder.Services.AddScoped<IIngredientService, IngredientService>();
             builder.Services.AddScoped<IPizzaFactory, PizzaFactory>();
+            builder.Services.AddScoped<IPizzaService, PizzaService>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             builder.Services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
             builder.Services.AddSingleton<ICloudinaryService, CloudinaryService>();

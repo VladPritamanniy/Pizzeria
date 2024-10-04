@@ -11,7 +11,7 @@ export async function getAllPizzas(): Promise<Pizza[]> {
 
 export async function createPizza(request: Request): Promise<void> {
     const formData = await request.formData();
-    
+
     const selectedIngredientIdsData = formData.get('selectedIngredientIds') as string;
     const selectedIngredientIds = selectedIngredientIdsData ? selectedIngredientIdsData.split(',').map(Number) : [];
 
@@ -24,7 +24,7 @@ export async function createPizza(request: Request): Promise<void> {
         sizesWithPrice: sizesWithPrice,
         ingredientIds: selectedIngredientIds
     };
-    
+
     await axios.post(`${BASE_API_URL}/api/Menu`, updates, {
         headers: {
             'Content-Type': 'multipart/form-data',

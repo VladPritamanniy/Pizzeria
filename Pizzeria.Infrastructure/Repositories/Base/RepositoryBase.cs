@@ -85,7 +85,7 @@ namespace Pizzeria.Infrastructure.Repositories.Base
 
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
         {
-            _dbContext.Set<T>().Add(entity);
+            await _dbContext.Set<T>().AddAsync(entity, cancellationToken);
 
             await SaveChangesAsync(cancellationToken);
 
@@ -94,7 +94,7 @@ namespace Pizzeria.Infrastructure.Repositories.Base
 
         public async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
-            _dbContext.Set<T>().AddRange(entities);
+            await _dbContext.Set<T>().AddRangeAsync(entities, cancellationToken);
 
             await SaveChangesAsync(cancellationToken);
 
@@ -104,6 +104,13 @@ namespace Pizzeria.Infrastructure.Repositories.Base
         public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
             _dbContext.Set<T>().Update(entity);
+
+            await SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task UpdateRangeAsync(IEnumerable<T> entity, CancellationToken cancellationToken = default)
+        {
+            _dbContext.Set<T>().UpdateRange(entity);
 
             await SaveChangesAsync(cancellationToken);
         }

@@ -19,10 +19,17 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function CreatePizza() {
-    const [sizesWithPrice, setSizeWithPrice] = useState<SizeWithPrice[]>([]);
+    const [pizzaName, setPizzaName] = useState<string>('');
+    const [pizzaImg, setPizzaImg] = useState<File | null>(null);
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+    const [sizesWithPrice, setSizeWithPrice] = useState<SizeWithPrice[]>([]);
     const [selectedIngredientIds, setSelectedIngredientId] = useState<number[]>([]);
-    
+
+    const [loadingSizesWithPrice, setLoadingSizesWithPrice] = useState<boolean>(true);
+    const [loadingIngredients, setLoadingIngredients] = useState<boolean>(true);
+
+    const [isFormValid, setIsFormValid] = useState<boolean>(false);
+
     const handleSizeChange = (index: number, updatedSize: SizeWithPrice) => {
         const updatedSizes = [...sizesWithPrice];
         updatedSizes[index] = updatedSize;
@@ -33,25 +40,37 @@ export default function CreatePizza() {
         const fenchData = async () => {
             const response = await getAllSizes();
             setSizeWithPrice(response);
+            setLoadingSizesWithPrice(false);
         }
 
         fenchData();
     }, []);
-    
+
     useEffect(() => {
         const fenchData = async () => {
             const response = await getAllIngredients();
             setIngredients(response);
+            setLoadingIngredients(false);
         }
-        
+
         fenchData();
     }, []);
 
-    function checkHandler(i: number){
-        if(selectedIngredientIds.includes(i)){
-            setSelectedIngredientId(selectedIngredientIds.filter( item => item !== i ));
+    useEffect(() => {
+        const isValid =
+            pizzaName.trim() !== '' &&
+            pizzaImg !== null &&
+            selectedIngredientIds.length > 0 &&
+            sizesWithPrice.every(size => size.price > 0);
+
+        setIsFormValid(isValid);
+    }, [pizzaName, pizzaImg, selectedIngredientIds, sizesWithPrice]);
+
+    function checkHandler(i: number) {
+        if (selectedIngredientIds.includes(i)) {
+            setSelectedIngredientId(selectedIngredientIds.filter(item => item !== i));
         }
-        else{
+        else {
             setSelectedIngredientId([...selectedIngredientIds, i]);
         }
     }
@@ -66,6 +85,8 @@ export default function CreatePizza() {
                         aria-label="Name"
                         type="text"
                         name="name"
+                        value={pizzaName}
+                        onChange={(e) => setPizzaName(e.target.value)}
                     />
                 </label>
                 <label className={styles.imageLabel}>
@@ -76,25 +97,36 @@ export default function CreatePizza() {
                         type="file"
                         name="pizzaImg"
                         multiple={false}
+                        onChange={(e) => setPizzaImg(e.target.files?.[0] || null)}
                     />
                 </label>
                 <div className={styles.ingredients}>
-                    <IngredientList
-                        ingredients={ingredients}
-                        selectedIngredients={selectedIngredientIds}
-                        onChecked={checkHandler}
-                    />
-                    <input type='hidden' name="selectedIngredientIds" value={selectedIngredientIds.join(',')}/>
+                    <label className={styles.ingredientLabel}>Ingredients</label>
+                    {loadingIngredients
+                        ? (<span className={styles.loader}></span>)
+                        : (
+                            <IngredientList
+                                ingredients={ingredients}
+                                selectedIngredients={selectedIngredientIds}
+                                onChecked={checkHandler}
+                            />
+                        )}
+                    <input type='hidden' name="selectedIngredientIds" value={selectedIngredientIds.join(',')} />
                 </div>
                 <div className={styles.sizesContainer}>
                     <label className={styles.priceLabel}>Price</label>
-                    <SizeList
-                        sizeList={sizesWithPrice}
-                        onChangeHandler={handleSizeChange}
-                    />
-                    <input type='hidden' name="sizesWithPrice" value={JSON.stringify(sizesWithPrice)}/>
+                    {loadingSizesWithPrice
+                        ? (<span className={styles.loader}></span>)
+                        : (
+                            <SizeList
+                                sizeList={sizesWithPrice}
+                                onChangeHandler={handleSizeChange}
+                            />
+                        )}
+
+                    <input type='hidden' name="sizesWithPrice" value={JSON.stringify(sizesWithPrice)} />
                 </div>
-                <button type="submit">Save</button>
+                <button type="submit" className={styles.submitBtn} disabled={!isFormValid}>Save</button>
             </Form>
         </>
     );

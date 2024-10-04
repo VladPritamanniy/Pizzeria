@@ -1,4 +1,4 @@
-import { ROUTES } from '../../constants/routes.ts';
+import { ROUTES } from '../../constants/ROUTES.ts';
 import styles from './Root.module.scss'
 import {
   NavLink,

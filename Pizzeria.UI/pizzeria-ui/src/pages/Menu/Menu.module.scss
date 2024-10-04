@@ -1,13 +1,3 @@
-@keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
 .ulPizzas {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -24,6 +14,17 @@
 }
 
 .loader {
+    
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+    
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
     width: 48px;
     height: 48px;
     border-width: 3px;

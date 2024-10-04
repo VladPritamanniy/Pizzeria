@@ -1,0 +1,37 @@
+.options {
+    padding: 20px;
+    background-color: rgba(191, 191, 191, 0.15);
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.caption {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.option {
+    width: 24%;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.saveBtn {
+    width: 200px;
+    color: white;
+    background-color: red;
+
+    &:hover {
+        color: red;
+        background-color: white;
+    }
+
+    &:disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+}

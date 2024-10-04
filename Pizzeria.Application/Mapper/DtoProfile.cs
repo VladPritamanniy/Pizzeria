@@ -14,6 +14,7 @@ namespace Pizzeria.Application.Mapper
             CreateMap<Size, SizeDto>().ReverseMap();
             CreateMap<PizzaIngredient, PizzaIngredientDto>().ReverseMap();
             CreateMap<PizzaPrice, PizzaPriceDto>().ReverseMap();
+            CreateMap<Pizza, PizzaDisplayOrderingDto>().ReverseMap();
         }
     }
 }
