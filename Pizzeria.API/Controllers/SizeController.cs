@@ -15,6 +15,7 @@ namespace Pizzeria.API.Controllers
         }
 
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> GetAllSizes()
         {
             return Ok(await _sizeService.GetAllSizes());

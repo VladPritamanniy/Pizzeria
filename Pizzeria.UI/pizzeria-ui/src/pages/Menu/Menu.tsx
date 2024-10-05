@@ -8,8 +8,8 @@ import BasketModal from "../../components/BasketModal/BasketModal";
 export default function Menu() {
     const [data, setData] = useState<Pizza[]>([]);
     const [basketItems, setBasketItems] = useState<Pizza[]>([]);
-    const [isModal, setModal] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [isModal, setModal] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {

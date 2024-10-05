@@ -43,6 +43,7 @@ export default function ChangeMenuPosition() {
             return { ...item, displayOrder: index++ };
         });
         await changePizzaDisplayOrdering(pizzaListByDisplayOrder);
+        setModified(false);
     }
 
     return (

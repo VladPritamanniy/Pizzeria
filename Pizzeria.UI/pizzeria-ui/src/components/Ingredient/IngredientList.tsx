@@ -3,11 +3,10 @@ import IngredientItem from './IngredientItem';
 
 interface Props{
     ingredients: Ingredient[],
-    selectedIngredients: number[],
     onChecked: (item :number) => void
 }
 
-export default function IngredientList({ingredients, onChecked, selectedIngredients}: Props){
+export default function IngredientList({ingredients, onChecked}: Props){
     return(
         <>
             {ingredients.map(ingredient=>(
@@ -17,7 +16,6 @@ export default function IngredientList({ingredients, onChecked, selectedIngredie
                     ingredient={ingredient}
                 />
             ))}
-            <input type="hidden" value={selectedIngredients.join(',')}/>
         </>
     );
 }

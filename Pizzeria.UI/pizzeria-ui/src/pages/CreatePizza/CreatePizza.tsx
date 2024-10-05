@@ -9,7 +9,7 @@ import { Ingredient } from "../../interfaces/Ingredient";
 import { SizeWithPrice } from "../../interfaces/SizeWithPrice";
 import { getAllSizes } from "../../services/sizeService";
 import { getAllIngredients } from "../../services/ingredientService";
-import { createPizza } from "../../services/menuService";
+import { createPizza } from "../../services/pizzaService";
 import IngredientList from "../../components/Ingredient/IngredientList";
 import SizeList from '../../components/Size/SizeList';
 
@@ -19,16 +19,13 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function CreatePizza() {
-    const [pizzaName, setPizzaName] = useState<string>('');
+    const [pizzaName, setPizzaName] = useState('');
     const [pizzaImg, setPizzaImg] = useState<File | null>(null);
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [sizesWithPrice, setSizeWithPrice] = useState<SizeWithPrice[]>([]);
     const [selectedIngredientIds, setSelectedIngredientId] = useState<number[]>([]);
-
-    const [loadingSizesWithPrice, setLoadingSizesWithPrice] = useState<boolean>(true);
-    const [loadingIngredients, setLoadingIngredients] = useState<boolean>(true);
-
-    const [isFormValid, setIsFormValid] = useState<boolean>(false);
+    const [isLoading, setLoading] = useState({ sizesWithPrice: true, ingredients: true });
+    const [isFormValid, setIsFormValid] = useState(false);
 
     const handleSizeChange = (index: number, updatedSize: SizeWithPrice) => {
         const updatedSizes = [...sizesWithPrice];
@@ -40,7 +37,7 @@ export default function CreatePizza() {
         const fenchData = async () => {
             const response = await getAllSizes();
             setSizeWithPrice(response);
-            setLoadingSizesWithPrice(false);
+            setLoading(prevState => ({ ...prevState, sizesWithPrice: false }));
         }
 
         fenchData();
@@ -50,7 +47,7 @@ export default function CreatePizza() {
         const fenchData = async () => {
             const response = await getAllIngredients();
             setIngredients(response);
-            setLoadingIngredients(false);
+            setLoading(prevState => ({ ...prevState, ingredients: false }));
         }
 
         fenchData();
@@ -102,12 +99,11 @@ export default function CreatePizza() {
                 </label>
                 <div className={styles.ingredients}>
                     <label className={styles.ingredientLabel}>Ingredients</label>
-                    {loadingIngredients
+                    {isLoading.ingredients
                         ? (<span className={styles.loader}></span>)
                         : (
                             <IngredientList
                                 ingredients={ingredients}
-                                selectedIngredients={selectedIngredientIds}
                                 onChecked={checkHandler}
                             />
                         )}
@@ -115,7 +111,7 @@ export default function CreatePizza() {
                 </div>
                 <div className={styles.sizesContainer}>
                     <label className={styles.priceLabel}>Price</label>
-                    {loadingSizesWithPrice
+                    {isLoading.sizesWithPrice
                         ? (<span className={styles.loader}></span>)
                         : (
                             <SizeList

@@ -5,6 +5,5 @@ namespace Pizzeria.Application.Interfaces
     public interface IMenuService
     {
         Task<MenuDto> GetAllPizzas();
-        Task CreatePizza(PizzaCreateDto dto);
     }
 }

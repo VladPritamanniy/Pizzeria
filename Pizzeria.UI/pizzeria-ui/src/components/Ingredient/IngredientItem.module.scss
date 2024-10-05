@@ -4,50 +4,51 @@
     justify-content: space-between;
     padding: 10px;
     border-bottom: 1px solid #eaeaea;
-}
 
-.switchInput {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
+    .switchInput {
+        opacity: 0;
+        width: 0;
+        height: 0;
 
-.switchSlider {
-    position: relative;
-    width: 40px;
-    height: 20px;
-    background-color: #ccc;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.4s;
-
-    &:before {
-        content: '';
-        position: absolute;
-        width: 18px;
-        height: 18px;
-        background-color: white;
-        border-radius: 50%;
-        top: 1px;
-        left: 1px;
-        transition: 0.4s;
+        &:checked+.switchSlider {
+            background-color: #4caf50;
+        }
+        
+        &:checked+.switchSlider:before {
+            transform: translateX(20px);
+        }
+        
     }
-}
 
-.switchInput:checked+.switchSlider {
-    background-color: #4caf50;
-}
+    .switchSlider {
+        position: relative;
+        width: 40px;
+        height: 20px;
+        background-color: #ccc;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: 0.4s;
+    
+        &:before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background-color: white;
+            border-radius: 50%;
+            top: 1px;
+            left: 1px;
+            transition: 0.4s;
+        }
+    }
 
-.switchInput:checked+.switchSlider:before {
-    transform: translateX(20px);
-}
-
-.ingredientName {
-    flex: 1;
-    margin-left: 10px;
-}
-
-.ingredientCost {
-    margin-left: 20px;
-    font-weight: bold;
+    .ingredientName {
+        flex: 1;
+        margin-left: 10px;
+    }
+    
+    .ingredientCost {
+        margin-left: 20px;
+        font-weight: bold;
+    }
 }

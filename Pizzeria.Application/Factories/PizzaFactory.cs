@@ -40,7 +40,7 @@ namespace Pizzeria.Application.Factories
                     SizeId = sizeWithPrice.Id,
                     Price = new Price
                     {
-                        Value = decimal.Parse(sizeWithPrice.Price.Replace('.', ','))
+                        Value = decimal.Parse(sizeWithPrice.Price)
                     }
                 });
             }

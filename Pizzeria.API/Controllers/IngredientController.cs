@@ -18,12 +18,14 @@ namespace Pizzeria.API.Controllers
         }
 
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> GetAllIngredients()
         {
             return Ok(await _ingredientService.GetAllIngredients());
         }
 
         [HttpPost]
+        [Route("[action]")]
         public async Task<IActionResult> CreateIngredient([FromForm] IngredientDto dto)
         {
             try
