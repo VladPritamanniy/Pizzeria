@@ -18,7 +18,7 @@ pipeline {
         }
         stage("docker build") {
             steps {
-                echo " ============== start building image =================="
+                echo "============== start building image =================="
                 sh('docker build -t vladprytamannyi/pizzeria-api:latest .')
                 sh('docker build -t vladprytamannyi/pizzeria-ui:latest -f Pizzeria.UI/pizzeria-ui/Dockerfile Pizzeria.UI/pizzeria-ui')
                 
