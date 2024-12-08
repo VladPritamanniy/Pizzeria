@@ -2,12 +2,37 @@ properties([disableConcurrentBuilds()])
 
 pipeline {
     agent any
-
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+    }
     stages {
-        stage('Hello') {
+        stage("docker login") {
             steps {
-                echo 'Hello World1'
-                echo 'Hello World2'
+                echo " ============== docker login =================="
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_vladprytamannyi', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh """
+                    docker login -u $USERNAME -p $PASSWORD
+                    """
+                }
+            }
+        }
+        stage("create docker image") {
+            steps {
+                echo " ============== start building image =================="
+                sh 'docker build -t vladprytamannyi/pizzeria-api:latest . '
+                sh 'docker build -t vladprytamannyi/pizzeria-ui:latest -f Pizzeria.UI/pizzeria-ui/Dockerfile Pizzeria.UI/pizzeria-ui'
+                
+            }
+        }
+        stage("docker push") {
+            steps {
+                echo " ============== start pushing image =================="
+                sh '''
+                docker push vladprytamannyi/pizzeria-api:latest
+                '''
+                sh '''
+                docker push vladprytamannyi/pizzeria-ui:latest
+                '''
             }
         }
     }
