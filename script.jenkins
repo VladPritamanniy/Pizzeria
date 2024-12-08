@@ -16,7 +16,7 @@ pipeline {
                 }
             }
         }
-        stage("create docker image") {
+        stage("docker build") {
             steps {
                 echo " ============== start building image =================="
                 sh 'docker build -t vladprytamannyi/pizzeria-api:latest . '
