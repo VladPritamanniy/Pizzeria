@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: "postgres:latest"
+    environment:
+      POSTGRES_DB: Pizzeria
+      POSTGRES_USER: vladdb
+      POSTGRES_PASSWORD: Qjf39JK2Njuw194
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5432:5432"
+    volumes:
+      - vladdb-data:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "habrpguser@habr.com"
+      PGADMIN_DEFAULT_PASSWORD: "Qjf39JK2Njuw194"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - postgres
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "7147:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Postgres=User ID=vladdb;Password=Qjf39JK2Njuw194;Server=postgres;Port=5432;Database=Pizzeria;Pooling=true;
+    depends_on:
+      - postgres
+
+volumes:
+  vladdb-data:
+  pgadmin-data:
+  
+networks:
+  postgres:
+    driver: bridge
