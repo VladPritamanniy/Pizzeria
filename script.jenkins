@@ -2,6 +2,9 @@ properties([disableConcurrentBuilds()])
 
 pipeline {
     agent any
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub_vladprytamannyi')
+    }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
     }
@@ -9,30 +12,22 @@ pipeline {
         stage("docker login") {
             steps {
                 echo " ============== docker login =================="
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_vladprytamannyi', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh """
-                    docker login -u $USERNAME -p $PASSWORD
-                    """
-                }
+                sh('docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW')
             }
         }
         stage("docker build") {
             steps {
                 echo " ============== start building image =================="
-                sh 'docker build -t vladprytamannyi/pizzeria-api:latest . '
-                sh 'docker build -t vladprytamannyi/pizzeria-ui:latest -f Pizzeria.UI/pizzeria-ui/Dockerfile Pizzeria.UI/pizzeria-ui'
+                sh('docker build -t vladprytamannyi/pizzeria-api:latest .')
+                sh('docker build -t vladprytamannyi/pizzeria-ui:latest -f Pizzeria.UI/pizzeria-ui/Dockerfile Pizzeria.UI/pizzeria-ui')
                 
             }
         }
         stage("docker push") {
             steps {
                 echo " ============== start pushing image =================="
-                sh '''
-                docker push vladprytamannyi/pizzeria-api:latest
-                '''
-                sh '''
-                docker push vladprytamannyi/pizzeria-ui:latest
-                '''
+                sh('docker push vladprytamannyi/pizzeria-api:latest')
+                sh('docker push vladprytamannyi/pizzeria-ui:latest')
             }
         }
     }
