@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage("docker login") {
             steps {
-                echo " ============== docker login =================="
+                echo "============== docker login =================="
                 sh('sudo systemctl start docker || true')
                 sh('docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW')
             }
