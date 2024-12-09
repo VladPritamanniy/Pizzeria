@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pizzeria-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pizzeria-api
+  template:
+    metadata:
+      labels:
+        app: pizzeria-api
+    spec:
+      containers:
+      - name: pizzeria-api
+        image: vladprytamannyi/pizzeria-api:1.0
+        ports:
+        - containerPort: 8080

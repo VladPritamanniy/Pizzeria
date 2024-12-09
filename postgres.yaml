@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: vladdb-pv
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  hostPath:
+    path: /data/vladdb
+  storageClassName: standard
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vladdb-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: vladdb-pv
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vladdb-secret
+type: Opaque
+data:
+  POSTGRES_DB: UGl6emVyaWE=           # base64-encoded "Pizzeria"
+  POSTGRES_USER: dmxhZGRi             # base64-encoded "vladdb"
+  POSTGRES_PASSWORD: UWpmMzlKSzJNanV3MTk0 # base64-encoded "Qjf39JK2Njuw194"
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vladdb
+  labels:
+    app: vladdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vladdb
+  serviceName: vladdb
+  template:
+    metadata:
+      labels:
+        app: vladdb
+    spec:
+      containers:
+        - name: vladdb
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_DB
+                  name: vladdb-secret
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_USER
+                  name: vladdb-secret
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: vladdb-secret
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata"
+          ports:
+            - containerPort: 5432
+              name: vladdb
+              protocol: TCP
+          volumeMounts:
+            - name: vladdb-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: vladdb-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vladdb
+  labels:
+    app: vladdb
+spec:
+  selector:
+    app: vladdb
+  type: NodePort
+  ports:
+    - name: vladdb
+      port: 5432
+      targetPort: 5432
+      protocol: TCP

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pizzeria-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pizzeria-ui
+  template:
+    metadata:
+      labels:
+        app: pizzeria-ui
+    spec:
+      containers:
+      - name: pizzeria-ui
+        image: vladprytamannyi/pizzeria-ui:1.0
+        ports:
+        - containerPort: 3000
