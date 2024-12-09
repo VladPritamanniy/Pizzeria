@@ -26,7 +26,7 @@ pipeline {
         }
         stage("docker push") {
             steps {
-                echo " ============== start pushing image =================="
+                echo "============== start pushing image =================="
                 sh('docker push vladprytamannyi/pizzeria-api:latest')
                 sh('docker push vladprytamannyi/pizzeria-ui:latest')
             }
